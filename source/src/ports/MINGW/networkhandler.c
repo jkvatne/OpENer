@@ -49,5 +49,5 @@ int SetSocketToNonBlocking(int socket_handle) {
 int SetQosOnSocket(int socket,
                    CipUsint qos_value) {
   CipUsint set_tos = qos_value;
-  return setsockopt(socket, IPPROTO_IP, IP_TOS, &set_tos, sizeof(set_tos) );
+  return setsockopt(socket, IPPROTO_IP, IP_TOS, (char*)&set_tos, sizeof(set_tos) );
 }
