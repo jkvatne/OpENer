@@ -885,7 +885,7 @@ int DecodePaddedEPath(CipEpath *epath,
 void AllocateAttributeMasks(CipClass *target_class) {
   size_t size = 1 + CalculateIndex(target_class->highest_attribute_number);
   OPENER_TRACE_INFO(
-    ">>> Allocate memory for %s %lu bytes times 3 for masks\n",
+    ">>> Allocate memory for %s %zu bytes times 3 for masks\n",
     target_class->class_name, size);
   target_class->get_single_bit_mask = CipCalloc(size, sizeof(uint8_t) );
   target_class->set_bit_mask = CipCalloc(size, sizeof(uint8_t) );
