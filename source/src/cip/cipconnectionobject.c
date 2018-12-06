@@ -114,7 +114,9 @@ void ConnectionObjectInitializeFromMessage(
   /* For unconnected send - can be ignored by targets, and is ignored here */
   CipByte priority_timetick = GetSintFromMessage(message);
   CipUsint timeout_ticks = GetSintFromMessage(message);
-
+  /* Suppress warnings:*/
+  if (priority_timetick) {};
+  if (timeout_ticks) {};
   /* O_to_T Conn ID */
   ConnectionObjectSetCipConsumedConnectionID(connection_object,
                                              GetDintFromMessage(message) );
