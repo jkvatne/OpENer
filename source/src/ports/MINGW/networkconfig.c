@@ -88,7 +88,7 @@ void ConfigureDomainName() {
   // This was a parameter!
   int interface_index = 0;
 
-  CipDword dwSize = 0;
+  //CipDword dwSize = 0;
   int i = 0;
   // Set the flags to pass to GetAdaptersAddresses
   CipUdint flags = GAA_FLAG_INCLUDE_PREFIX;
@@ -144,7 +144,7 @@ void ConfigureDomainName() {
           }
         }
 
-        char pStringBuf[INET_ADDRSTRLEN];
+        //char pStringBuf[INET_ADDRSTRLEN];
         if (i != 0) {
 
           if (NULL != interface_configuration_.domain_name.string) {
