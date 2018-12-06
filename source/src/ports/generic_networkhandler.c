@@ -662,7 +662,7 @@ EipStatus HandleDataOnTcpSocket(int socket) {
 
     do {
       OPENER_TRACE_INFO(
-        "Entering consumption loop, remaining data to receive: %zu\n",
+        "Entering consumption loop, remaining data to receive: %ld\n",
         data_sent);
       number_of_read_bytes = recv(socket, (char*)&incoming_message[0],
                                   data_sent, 0);
