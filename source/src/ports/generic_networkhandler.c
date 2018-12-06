@@ -887,7 +887,7 @@ int CreateUdpSocket(UdpCommuncationDirection communication_direction,
         == g_multicast_configuration.starting_multicast_address) {
       if (1 != g_time_to_live_value) { /* we need to set a TTL value for the socket */
         if ( setsockopt(new_socket, IPPROTO_IP, IP_MULTICAST_TTL,
-                        &g_time_to_live_value,
+                        (char*)&g_time_to_live_value,
                         sizeof(g_time_to_live_value) ) < 0 ) {
           int error_code = GetSocketErrorNumber();
           char *error_message = GetErrorMessage(error_code);
