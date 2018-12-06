@@ -134,7 +134,6 @@ EipUint16 SetupIoConnectionOriginatorToTargetConnectionPoint(
     CipAttributeStruct *attribute = GetCipAttribute(instance,
                                                     io_connection_object->consumed_path.attribute_id_or_connection_point);
     OPENER_ASSERT(attribute != NULL)
-    bool is_heartbeat = ( ( (CipByteArray *) attribute->data )->length == 0 );
     if ( kConnectionObjectTransportClassTriggerTransportClass1
          == ConnectionObjectGetTransportClassTriggerTransportClass(
            io_connection_object) ) {
@@ -143,6 +142,7 @@ EipUint16 SetupIoConnectionOriginatorToTargetConnectionPoint(
       diff_size += 2;
     }
 #ifdef OPENER_CONSUMED_DATA_HAS_RUN_IDLE_HEADER
+    bool is_heartbeat = ( ( (CipByteArray *) attribute->data )->length == 0 );
     if ( (data_size > 0) && (!is_heartbeat) ) {
       /* we only have an run idle header if it is not an heartbeat connection */
       data_size -= 4; /* remove the 4 bytes needed for run/idle header */
@@ -234,7 +234,7 @@ EipUint16 SetupIoConnectionTargetToOriginatorConnectionPoint(
     CipAttributeStruct *attribute = GetCipAttribute(instance,
                                                     io_connection_object->produced_path.attribute_id_or_connection_point);
     OPENER_ASSERT(attribute != NULL)
-    bool is_heartbeat = ( ( (CipByteArray *) attribute->data )->length == 0 );
+    // bool is_heartbeat = ( ( (CipByteArray *) attribute->data )->length == 0 );
     if ( kConnectionObjectTransportClassTriggerTransportClass1 ==
          ConnectionObjectGetTransportClassTriggerTransportClass(
            io_connection_object) ) {
@@ -825,7 +825,7 @@ EipStatus SendConnectedData(CipConnectionObject *connection_object) {
   EipUint16 reply_length = AssembleIOMessage(common_packet_format_data,
                                              &outgoing_message);
 
-
+  if (reply_length) {};
   outgoing_message.current_message_position -= 2;
   common_packet_format_data->data_item.length = producing_instance_attributes
                                                 ->length;
