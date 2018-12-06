@@ -38,7 +38,7 @@ EipStatus ConfigureNetworkInterface(const char *const network_interface) {
   }
   // Make an initial call to GetAdaptersInfo to get
   // the necessary size into the ulOutBufLen variable
-  if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_BUFFER_OVERFLOW) {
+  if (GetAdaptersInfo(pAdapterInfo, (PULONG)&ulOutBufLen) == ERROR_BUFFER_OVERFLOW) {
     CipFree(pAdapterInfo);
     pAdapterInfo = (IP_ADAPTER_INFO *)CipCalloc(ulOutBufLen,sizeof(CipUdint) );
     if (pAdapterInfo == NULL) {
@@ -48,7 +48,7 @@ EipStatus ConfigureNetworkInterface(const char *const network_interface) {
   }
 
 
-  if ( (dwRetVal = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) ) == NO_ERROR ) {
+  if ( (dwRetVal = GetAdaptersInfo(pAdapterInfo, (PULONG)&ulOutBufLen) ) == NO_ERROR ) {
     pAdapter = pAdapterInfo;
     while (pAdapter) {
       if (strcmp( pAdapter->IpAddressList.IpAddress.String, network_interface) == 0) {
@@ -118,7 +118,7 @@ void ConfigureDomainName() {
     }
 
     dwRetVal =
-      GetAdaptersAddresses(family, flags, NULL, pAddresses, &outBufLen);
+      GetAdaptersAddresses(family, flags, NULL, pAddresses, (PULONG)&outBufLen);
 
     if (dwRetVal == ERROR_BUFFER_OVERFLOW) {
       CipFree(pAddresses);
@@ -154,13 +154,13 @@ void ConfigureDomainName() {
             CipFree(interface_configuration_.domain_name.string);
           }
           interface_configuration_.domain_name.length = strlen(
-            pCurrAddresses->DnsSuffix);
+                  (char*)pCurrAddresses->DnsSuffix);
           if (interface_configuration_.domain_name.length) {
             interface_configuration_.domain_name.string = (CipByte *)CipCalloc(
               interface_configuration_.domain_name.length + 1,
               sizeof(CipUsint) );
-            strcpy(interface_configuration_.domain_name.string,
-                   pCurrAddresses->DnsSuffix);
+            strcpy((char*)interface_configuration_.domain_name.string,
+                   (char*)pCurrAddresses->DnsSuffix);
           }
           else {
             interface_configuration_.domain_name.string = NULL;
@@ -198,7 +198,7 @@ void ConfigureDomainName() {
                         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                         // Default language
                         (LPTSTR)&lpMsgBuf, 0, NULL) ) {
-        OPENER_TRACE_INFO("\tError: %s", lpMsgBuf);
+        OPENER_TRACE_INFO("\tError: %s", (char*)lpMsgBuf);
         CipFree(lpMsgBuf);
         if (pAddresses) {
           CipFree(pAddresses);
@@ -249,7 +249,7 @@ void ConfigureHostName(void) {
   if (hostname_.length) {
     hostname_.string = (CipByte *) CipCalloc( hostname_.length + 1,
                                               sizeof(CipByte) );
-    strcpy(hostname_.string, hostname);
+    strcpy((char*)hostname_.string, hostname);
   } else {
     hostname_.string = NULL;
   }
