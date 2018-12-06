@@ -437,7 +437,7 @@ void CheckAndHandleUdpGlobalBroadcastSocket(void) {
     /* Handle UDP broadcast messages */
     CipOctet incoming_message[PC_OPENER_ETHERNET_BUFFER_SIZE] = {0};
     int received_size = recvfrom(g_network_status.udp_global_broadcast_listener,
-                                 incoming_message,
+                                 (char*)incoming_message,
                                  sizeof(incoming_message),
                                  0, (struct sockaddr *) &from_address,
                                  &from_address_length);
@@ -502,7 +502,7 @@ void CheckAndHandleUdpUnicastSocket(void) {
     /* Handle UDP broadcast messages */
     CipOctet incoming_message[PC_OPENER_ETHERNET_BUFFER_SIZE] = {0};
     int received_size = recvfrom(g_network_status.udp_unicast_listener,
-                                 incoming_message,
+                                 (char*)incoming_message,
                                  sizeof(incoming_message),
                                  0, (struct sockaddr *) &from_address,
                                  &from_address_length);
@@ -618,7 +618,7 @@ EipStatus HandleDataOnTcpSocket(int socket) {
   /*Check how many data is here -- read the first four bytes from the connection */
   CipOctet incoming_message[PC_OPENER_ETHERNET_BUFFER_SIZE] = {0};
 
-  long number_of_read_bytes = recv(socket, incoming_message, 4,
+  long number_of_read_bytes = recv(socket, (char*)incoming_message, 4,
                                    0); /*TODO we may have to set the socket to a non blocking socket */
 
   SocketTimer *socket_timer = SocketTimerArrayGetSocketTimer(
@@ -664,7 +664,7 @@ EipStatus HandleDataOnTcpSocket(int socket) {
       OPENER_TRACE_INFO(
         "Entering consumption loop, remaining data to receive: %zu\n",
         data_sent);
-      number_of_read_bytes = recv(socket, &incoming_message[0],
+      number_of_read_bytes = recv(socket, (char*)&incoming_message[0],
                                   data_sent, 0);
 
       if (number_of_read_bytes == 0) /* got error or connection closed by client */
@@ -701,7 +701,7 @@ EipStatus HandleDataOnTcpSocket(int socket) {
     return kEipStatusOk;
   }
 
-  number_of_read_bytes = recv(socket, &incoming_message[4],
+  number_of_read_bytes = recv(socket, (char*)&incoming_message[4],
                               data_size, 0);
 
   if (0 == number_of_read_bytes) /* got error or connection closed by client */
@@ -955,7 +955,7 @@ void CheckAndHandleConsumingUdpSockets(void) {
 
       int received_size = recvfrom(
         current_connection_object->socket[kUdpCommuncationDirectionConsuming],
-        incoming_message, sizeof(incoming_message), 0,
+        (char*)incoming_message, sizeof(incoming_message), 0,
         (struct sockaddr *) &from_address, &from_address_length);
       if (0 == received_size) {
         int error_code = GetSocketErrorNumber();
