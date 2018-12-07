@@ -208,7 +208,7 @@ void ConnectionObjectInitializeEmpty(
   CipConnectionObject *const connection_object);
 
 void ConnectionObjectInitializeFromMessage(
-  const CipOctet **message,
+  EipUint8 **const message,
   CipConnectionObject *const
   connection_object);
 

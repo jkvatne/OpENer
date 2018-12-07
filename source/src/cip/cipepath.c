@@ -329,7 +329,7 @@ void SetPathLogicalSegmentLogicalFormat(LogicalSegmentLogicalFormat format,
   }
 }
 
-const CipDword CipEpathGetLogicalValue(const EipUint8 **message) {
+const CipDword CipEpathGetLogicalValue(CipOctet **message) {
   LogicalSegmentLogicalFormat logical_format =
     GetPathLogicalSegmentLogicalFormat(*message);
   CipDword data = 0;
@@ -362,11 +362,11 @@ size_t CipEpathSetLogicalValue(const CipDword logical_value,
       written_bytes = AddSintToMessage(logical_value, message);
       break;
     case kLogicalSegmentLogicalFormatSixteenBit:
-      written_bytes = MoveMessageNOctets(1, (const CipOctet **)message); /* Needed for padding */
+      written_bytes = MoveMessageNOctets(1, (CipOctet **)message); /* Needed for padding */
       written_bytes += AddIntToMessage(logical_value, message);
       break;
     case kLogicalSegmentLogicalFormatThirtyTwoBit:
-      written_bytes = MoveMessageNOctets(1,(const CipOctet **)message); /* Needed for padding */
+      written_bytes = MoveMessageNOctets(1,(CipOctet **)message); /* Needed for padding */
       written_bytes += AddDintToMessage(logical_value, message);
       break;
     default:
@@ -439,7 +439,7 @@ ElectronicKeySegmentFormat GetPathLogicalSegmentElectronicKeyFormat(
 }
 
 void GetElectronicKeyFormat4FromMessage(
-  const CipOctet **const message,
+  CipOctet **const message,
   ElectronicKeyFormat4 *key) {
   OPENER_ASSERT( kElectronicKeySegmentFormatKeyFormat4 ==
                  GetPathLogicalSegmentElectronicKeyFormat(*message) )
@@ -512,7 +512,7 @@ CipUsint GetPathNetworkSegmentProductionInhibitTimeInMilliseconds(
  * @return the Production Inhibit Time in microseconds ranging from 0 to 4294967295
  */
 CipUdint GetPathNetworkSegmentProductionInhibitTimeInMicroseconds(
-  const unsigned char *const cip_path) {
+  unsigned char *const cip_path) {
 /*  OPENER_ASSERT(kSegmentTypeNetworkSegment == GetPathSegmentType(cip_path),"Not a network segment!\n")
    OPENER_ASSERT(kNetworkSegmentSubtypeProductionInhibitTimeInMicroseconds == GetPathNetworkSegmentSubtype(cip_path),
                   "Not a Production Inhibit Time microseconds segment!\n")
@@ -523,7 +523,7 @@ CipUdint GetPathNetworkSegmentProductionInhibitTimeInMicroseconds(
                    cip_path) )
   OPENER_ASSERT( 2 == *(cip_path + 1) )
 
-  const unsigned char *message_runner = cip_path + 2;
+  unsigned char *message_runner = cip_path + 2;
   return GetDintFromMessage(&message_runner);
 }
 
@@ -614,14 +614,14 @@ DataSegmentSubtype GetPathDataSegmentSubtype(const unsigned char *const cip_path
  * @return The amount of 16-bit words of data in the EPath
  */
 CipUsint GetPathDataSegmentSimpleDataWordLength(
-  const unsigned char *const cip_path) {
+  unsigned char *const cip_path) {
 /*  OPENER_ASSERT(kSegmentTypeDataSegment == GetPathSegmentType(cip_path),"Not a data segment!\n");
     OPENER_ASSERT(kDataSegmentSubtypeSimpleData == GetPathDataSegmentSubtype(cip_path), "Not a simple data segment!\n") */
   OPENER_ASSERT( kSegmentTypeDataSegment == GetPathSegmentType(cip_path) )
   OPENER_ASSERT( kDataSegmentSubtypeSimpleData ==
                  GetPathDataSegmentSubtype(cip_path) )
 
-  const unsigned char *message_runner = cip_path + 1;
+  unsigned char *message_runner = cip_path + 1;
   return GetSintFromMessage(&message_runner);
 }
 
@@ -655,7 +655,7 @@ size_t CipEpathEncodeConnectionEpath(
       CipEpathGetNeededLogicalFormatForValue(connection_epath->class_id);
     SetPathLogicalSegmentLogicalFormat(logical_value, *encoded_path);
     encoded_path_length += 1;
-    MoveMessageNOctets(1, (const CipOctet **)encoded_path);
+    MoveMessageNOctets(1, (CipOctet **)encoded_path);
     encoded_path_length += CipEpathSetLogicalValue(connection_epath->class_id,
                                                    logical_value,
                                                    encoded_path);
@@ -669,7 +669,7 @@ size_t CipEpathEncodeConnectionEpath(
       CipEpathGetNeededLogicalFormatForValue(connection_epath->instance_id);
     SetPathLogicalSegmentLogicalFormat(logical_value, *encoded_path);
     encoded_path_length += 1;
-    MoveMessageNOctets(1, (const CipOctet **)encoded_path);
+    MoveMessageNOctets(1, (CipOctet **)encoded_path);
     encoded_path_length += CipEpathSetLogicalValue(
       connection_epath->instance_id,
       logical_value,
@@ -685,7 +685,7 @@ size_t CipEpathEncodeConnectionEpath(
         connection_epath->attribute_id_or_connection_point);
     SetPathLogicalSegmentLogicalFormat(logical_value, *encoded_path);
     encoded_path_length += 1;
-    MoveMessageNOctets(1, (const CipOctet **)encoded_path);
+    MoveMessageNOctets(1, (CipOctet **)encoded_path);
     encoded_path_length += CipEpathSetLogicalValue(
       connection_epath->attribute_id_or_connection_point,
       logical_value,

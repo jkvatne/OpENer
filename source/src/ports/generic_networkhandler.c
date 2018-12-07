@@ -455,7 +455,7 @@ void CheckAndHandleUdpGlobalBroadcastSocket(void) {
 
     OPENER_TRACE_INFO("Data received on global broadcast UDP:\n");
 
-    const EipUint8 *receive_buffer = &incoming_message[0];
+    EipUint8 *receive_buffer = &incoming_message[0];
     int remaining_bytes = 0;
     do {
       ENIPMessage outgoing_message;
@@ -464,7 +464,7 @@ void CheckAndHandleUdpGlobalBroadcastSocket(void) {
         g_network_status.udp_global_broadcast_listener,
         &from_address,
         receive_buffer,
-        received_size,
+        (size_t)received_size,
         &remaining_bytes,
         false,
         &outgoing_message);
@@ -651,7 +651,7 @@ EipStatus HandleDataOnTcpSocket(int socket) {
     return kEipStatusError;
   }
 
-  const EipUint8 *read_buffer = &incoming_message[2]; /* at this place EIP stores the data length */
+  EipUint8 *read_buffer = &incoming_message[2]; /* at this place EIP stores the data length */
   size_t data_size = GetIntFromMessage(&read_buffer)
                      + ENCAPSULATION_HEADER_LENGTH - 4; /* -4 is for the 4 bytes we have already read*/
   /* (NOTE this advances the buffer pointer) */

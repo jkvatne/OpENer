@@ -116,7 +116,7 @@ int NotifyConnectedCommonPacketFormat(
             == kCipItemIdConnectedDataItem) { /* connected data item received*/
           EipUint8 *buffer = g_common_packet_format_data_item.data_item.data;
           g_common_packet_format_data_item.address_item.data.sequence_number =
-            (EipUint32) GetIntFromMessage( (const EipUint8 **const)&buffer );
+            (EipUint32) GetIntFromMessage( (EipUint8 **const)&buffer );
           OPENER_TRACE_INFO(
             "Class 3 sequence number: %d, last sequence number: %d\n",
             g_common_packet_format_data_item.address_item.data.sequence_number,
@@ -202,7 +202,7 @@ int NotifyConnectedCommonPacketFormat(
  *             kEipStatusError .. error
  */
 EipStatus CreateCommonPacketFormatStructure(
-  const EipUint8 *data,
+  EipUint8 *data,
   size_t data_length,
   CipCommonPacketFormatData *common_packet_format_data) {
 

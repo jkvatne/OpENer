@@ -273,7 +273,7 @@ int EncodeData(const EipUint8 cip_data_type,
  */
 int DecodeData(const EipUint8 cip_data_type,
                void *const cip_data,
-               const EipUint8 **const cip_message);
+               EipUint8 **const cip_message);
 
 /** @ingroup CIP_API
  * @brief Create an instance of an assembly object
@@ -348,7 +348,7 @@ typedef EipStatus (*ConnectionSendDataFunction)(CipConnectionObject *
  */
 typedef EipStatus (*ConnectionReceiveDataFunction)(
   CipConnectionObject *connection_object,
-  const EipUint8 *data,
+  EipUint8 *data,
   const EipUint16 data_length);
 
 /** @ingroup CIP_API
@@ -460,7 +460,7 @@ int HandleReceivedExplictTcpData(int socket_handle,
  */
 int HandleReceivedExplictUdpData(const int socket_handle,
                                  const struct sockaddr_in *from_address,
-                                 const EipUint8 *buffer,
+                                 EipUint8 *buffer,
                                  const size_t buffer_length,
                                  int *number_of_remaining_bytes,
                                  bool unicast,
@@ -479,7 +479,7 @@ int HandleReceivedExplictUdpData(const int socket_handle,
  *  @return EIP_OK on success
  */
 EipStatus
-HandleReceivedConnectedData(const EipUint8 *const received_data,
+HandleReceivedConnectedData(EipUint8 *const received_data,
                             int received_data_length,
                             struct sockaddr_in *from_address);
 

@@ -64,25 +64,27 @@ CipUint g_encapsulation_inactivity_timeout = 120;
 
 /************** Functions ****************************************/
 EipStatus GetAttributeSingleTcpIpInterface(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
 
 EipStatus GetAttributeAllTcpIpInterface(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
 
+
 EipStatus SetAttributeSingleTcp(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
+
   CipAttributeStruct *attribute = GetCipAttribute(
     instance, message_router_request->request_path.attribute_number);
   (void) instance; /*Suppress compiler warning */
@@ -226,10 +228,10 @@ void ShutdownTcpIpInterface(void) {
 }
 
 EipStatus GetAttributeSingleTcpIpInterface(
-  CipInstance *const RESTRICT instance,
-  CipMessageRouterRequest *RESTRICT const message_router_request,
-  CipMessageRouterResponse *RESTRICT const message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
 
   EipByte *message = message_router_response->data;
@@ -323,10 +325,10 @@ EipStatus GetAttributeSingleTcpIpInterface(
 }
 
 EipStatus GetAttributeAllTcpIpInterface(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
 
   EipUint8 *response = message_router_response->data; /* pointer into the reply */

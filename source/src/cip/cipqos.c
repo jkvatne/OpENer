@@ -27,27 +27,29 @@ CipUsint dscp_explicit = 27; /**< DSCP value for CIP explicit messages (transpor
 
 /************** Functions ****************************************/
 EipStatus GetAttributeSingleQoS(
-  CipInstance *const RESTRICT instance,
-  CipMessageRouterRequest *RESTRICT const message_router_request,
-  CipMessageRouterResponse *RESTRICT const message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
-
   return GetAttributeSingle(instance, message_router_request,
                             message_router_response, originator_address,
                             encapsulation_session);
 }
 
 EipStatus SetAttributeSingleQoS(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
-
   CipAttributeStruct *attribute = GetCipAttribute(
     instance, message_router_request->request_path.attribute_number);
-  (void) instance;   /*Suppress compiler warning */
+  /*Suppress compiler warnings */
+  (void) instance;
+  (void)originator_address;
+  (void)encapsulation_session;
+
   EipUint16 attribute_number =
     message_router_request->request_path.attribute_number;
   uint8_t set_bit_mask = (instance->cip_class->set_bit_mask[CalculateIndex(
@@ -113,6 +115,8 @@ CipUsint GetPriorityForSocket(ConnectionObjectPriority priority) {
 
 void InitializeCipQos(CipClass *class) {
   CipClass *meta_class = class->class_instance.cip_class;
+  /* Avoid warning for unused variable */
+  if (meta_class) {};
 }
 
 EipStatus CipQoSInit() {

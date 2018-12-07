@@ -109,7 +109,7 @@ int NotifyConnectedCommonPacketFormat(
  *             EIP_ERROR .. error
  */
 EipStatus CreateCommonPacketFormatStructure(
-  const EipUint8 *data,
+  EipUint8 *data,
   size_t data_length,
   CipCommonPacketFormatData *common_packet_format_data);
 

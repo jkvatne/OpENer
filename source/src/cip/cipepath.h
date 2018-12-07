@@ -257,7 +257,7 @@ LogicalSegmentLogicalFormat GetPathLogicalSegmentLogicalFormat(
 void SetPathLogicalSegmentLogicalFormat(LogicalSegmentLogicalFormat format,
                                         CipOctet *const cip_path);
 
-const CipDword CipEpathGetLogicalValue(const EipUint8 **message);
+const CipDword CipEpathGetLogicalValue(EipUint8 **message);
 
 size_t CipEpathSetLogicalValue(const CipDword logical_value,
                                const LogicalSegmentLogicalFormat logical_format,
@@ -294,7 +294,7 @@ ElectronicKeySegmentFormat GetPathLogicalSegmentElectronicKeyFormat(
  * @param key Writes the data on the user provided data electronic key struct
  */
 void GetElectronicKeyFormat4FromMessage(
-  const CipOctet **const cip_path,
+  CipOctet **const cip_path,
   ElectronicKeyFormat4 *key);
 
 /** @brief Gets the Network Segment Subtype of a EPatch Network Segement EPath message
@@ -319,7 +319,7 @@ CipUsint GetPathNetworkSegmentProductionInhibitTimeInMilliseconds(
  * @return The production Inhibit Time in Microseconds
  */
 CipUdint GetPathNetworkSegmentProductionInhibitTimeInMicroseconds(
-  const unsigned char *const cip_path);
+  unsigned char *const cip_path);
 
 /** @brief Gets the Data Segment subtype of a Data Segment EPath message
  *
@@ -335,7 +335,7 @@ DataSegmentSubtype GetPathDataSegmentSubtype(
  * @return The length in words of the Simple Data segment
  */
 CipUsint GetPathDataSegmentSimpleDataWordLength(
-  const unsigned char *const cip_path);
+  unsigned char *const cip_path);
 
 /** @brief Gets the Symbolic Segment Format of the Symbolic Segment EPath message
  *

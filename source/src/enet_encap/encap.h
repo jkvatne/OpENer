@@ -46,7 +46,7 @@ typedef struct encapsulation_data {
   CipOctet sender_context[8]; /**< length of 8, according to the specification */
   CipUdint options;
   const EipUint8 *communication_buffer_start; /**< Pointer to the communication buffer used for this message */
-  const EipUint8 *current_communication_buffer_position; /**< The current position in the communication buffer during the decoding process */
+  EipUint8 *current_communication_buffer_position; /**< The current position in the communication buffer during the decoding process */
 } EncapsulationData;
 
 typedef struct encapsulation_interface_information {
@@ -100,7 +100,7 @@ void EncapsulateListIdentityResponseMessage(
   const EncapsulationData *const receive_data,
   ENIPMessage *const outgoing_message);
 
-EipInt16 CreateEncapsulationStructure(const EipUint8 *receive_buffer,
+EipInt16 CreateEncapsulationStructure(EipUint8 *receive_buffer,
                                       int receive_buffer_length,
                                       EncapsulationData *const encapsulation_data);
 
@@ -125,7 +125,7 @@ void HandleReceivedRegisterSessionCommand(int socket,
                                           ENIPMessage *const outgoing_message);
 
 EipStatus HandleReceivedSendRequestResponseDataCommand(
-  const EncapsulationData *const receive_data,
+  EncapsulationData *const receive_data,
   const struct sockaddr *const originator_address,
   ENIPMessage *const outgoing_message);
 

@@ -75,7 +75,7 @@ void ShutdownCipStack(void) {
 EipStatus NotifyClass(const CipClass *RESTRICT const cip_class,
                       CipMessageRouterRequest *const message_router_request,
                       CipMessageRouterResponse *const message_router_response,
-                      struct sockaddr *originator_address,
+                      const struct sockaddr *const originator_address,
                       const int encapsulation_session) {
 
   /* find the instance: if instNr==0, the class is addressed, else find the instance */
@@ -292,10 +292,12 @@ CipClass *CreateCipClass(const EipUint32 class_id,
   /* create the standard class services*/
   if (number_of_class_services > 0) {
     if (number_of_class_services > 1) {             /*only if the mask has values add the get_attribute_all service */
-      InsertService(meta_class, kGetAttributeAll, &GetAttributeAll,
+      InsertService(meta_class, kGetAttributeAll,
+                    (const CipServiceFunction)&GetAttributeAll,
                     "GetAttributeAll");                     /* bind instance services to the metaclass*/
     }
-    InsertService(meta_class, kGetAttributeSingle, &GetAttributeSingle,
+    InsertService(meta_class, kGetAttributeSingle,
+                  (const CipServiceFunction)&GetAttributeSingle,
                   "GetAttributeSingle");
   }
   return class;
@@ -345,7 +347,7 @@ void InsertAttribute(CipInstance *const instance,
 
 void InsertService(const CipClass *const class,
                    const EipUint8 service_number,
-                   const CipServiceFunction service_function,
+                   CipServiceFunction service_function,
                    char *const service_name) {
 
   CipServiceStruct *service = class->services;       /* get a pointer to the service array*/
@@ -391,13 +393,13 @@ CipAttributeStruct *GetCipAttribute(const CipInstance *const instance,
 EipStatus GetAttributeSingle(CipInstance *RESTRICT const instance,
                              CipMessageRouterRequest *const message_router_request,
                              CipMessageRouterResponse *const message_router_response,
-                             struct sockaddr *originator_address,
+                             const struct sockaddr *originator_address,
                              const int encapsulation_session) {
   /* Mask for filtering get-ability */
 
   CipAttributeStruct *attribute = GetCipAttribute(instance,
                                                   message_router_request->request_path.attribute_number);
-  EipByte *message = message_router_response->data;
+  EipUint8 *message = message_router_response->data;
 
   message_router_response->data_length = 0;
   message_router_response->reply_service = (0x80
@@ -493,7 +495,7 @@ int EncodeData(const EipUint8 cip_type,
       CipString *const string = (CipString *) cip_data;
 
       AddIntToMessage(*(EipUint16 *) &(string->length), cip_message);
-      memcpy(*cip_message, string->string, string->length);
+      memcpy((void*)*cip_message, string->string, string->length);
       *cip_message += string->length;
 
       counter = string->length + 2;           /* we have a two byte length field */
@@ -615,7 +617,7 @@ int EncodeData(const EipUint8 cip_type,
 
 int DecodeData(const EipUint8 cip_data_type,
                void *const cip_data,
-               const EipUint8 **const cip_message) {
+               EipUint8 **const cip_message) {
   int number_of_decoded_bytes = -1;
 
   switch (cip_data_type)
@@ -704,7 +706,7 @@ CipServiceStruct *GetCipService(const CipInstance *const instance, CipUsint serv
 EipStatus GetAttributeAll(CipInstance *instance,
                           CipMessageRouterRequest *message_router_request,
                           CipMessageRouterResponse *message_router_response,
-                          struct sockaddr *originator_address,
+                          const struct sockaddr *originator_address,
                           const int encapsulation_session) {
 
   EipUint8 *reply = message_router_response->data;       /* pointer into the reply */
@@ -802,9 +804,9 @@ int EncodeEPath(CipEpath *epath,
 }
 
 int DecodePaddedEPath(CipEpath *epath,
-                      const EipUint8 **message) {
+                      EipUint8 **message) {
   unsigned int number_of_decoded_elements = 0;
-  const EipUint8 *message_runner = *message;
+  EipUint8 *message_runner = *message;
 
   epath->path_size = *message_runner;
   message_runner++;

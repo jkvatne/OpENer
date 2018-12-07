@@ -27,11 +27,12 @@ int EncodeInterfaceControl(EipUint8 **pa_acMsg);
 int EncodeInterfaceCapability(EipUint8 **pa_acMsg);
 
 EipStatus GetAttributeSingleEthernetLink(
-  CipInstance *RESTRICT const instance,
+  CipInstance *const instance,
   CipMessageRouterRequest *const message_router_request,
   CipMessageRouterResponse *const message_router_response,
-  struct sockaddr *originator_address,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
+
 
 /** @brief Data of an CIP Ethernet Link object */
 typedef struct {

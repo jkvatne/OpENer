@@ -44,11 +44,11 @@ CipClass *CreateAssemblyClass(void) {
   if(NULL != assembly_class) {
     InsertService(assembly_class,
                   kGetAttributeSingle,
-                  &GetAttributeSingle,
+                  (const CipServiceFunction)&GetAttributeSingle,
                   "GetAttributeSingle");
     InsertService(assembly_class,
                   kSetAttributeSingle,
-                  &SetAssemblyAttributeSingle,
+                  (const CipServiceFunction)&SetAssemblyAttributeSingle,
                   "SetAssemblyAttributeSingle");
   }
 

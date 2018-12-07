@@ -63,24 +63,24 @@ EipUint32 g_incarnation_id;
 
 /* private functions */
 EipStatus ForwardOpen(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
 
 EipStatus ForwardClose(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
 
 EipStatus GetConnectionOwner(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
 
 EipStatus AssembleForwardOpenResponse(
@@ -241,7 +241,7 @@ EipStatus ConnectionManagerInit(EipUint16 unique_connection_id) {
 }
 
 EipStatus HandleReceivedConnectedData(
-  const EipUint8 *const data,
+  EipUint8 *const data,
   int data_length,
   struct sockaddr_in *from_address
   ) {
@@ -490,10 +490,10 @@ static const HandleForwardOpenRequestFunction
  *              -1 .. error
  */
 EipStatus ForwardOpen(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session
   ) {
   (void) instance; /*suppress compiler warning */
@@ -558,10 +558,10 @@ EipStatus ForwardOpen(
 }
 
 EipStatus ForwardClose(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
   /*Suppress compiler warning*/
   (void) instance;
@@ -634,11 +634,12 @@ EipStatus ForwardClose(
 
 /* TODO: Not implemented */
 EipStatus GetConnectionOwner(
-  CipInstance *instance,
-  CipMessageRouterRequest *message_router_request,
-  CipMessageRouterResponse *message_router_response,
-  struct sockaddr *originator_address,
+  CipInstance *const instance,
+  CipMessageRouterRequest *const message_router_request,
+  CipMessageRouterResponse *const message_router_response,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
+
   /* suppress compiler warnings */
   (void) instance;
   (void) message_router_request;
@@ -1052,7 +1053,7 @@ EipUint8 ParseConnectionPath(
   CipMessageRouterRequest *message_router_request,
   EipUint16 *extended_error
   ) {
-  const EipUint8 *message = message_router_request->data;
+  EipUint8 *message = message_router_request->data;
   const size_t connection_path_size = GetSintFromMessage(&message); /* length in words */
   size_t remaining_path = connection_path_size;
   CipClass *class = NULL;

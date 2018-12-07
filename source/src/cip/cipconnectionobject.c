@@ -109,7 +109,7 @@ CipConnectionObject *CipConnectionObjectCreate(const CipOctet *message) {
 }
 
 void ConnectionObjectInitializeFromMessage(
-  const CipOctet **message,
+  EipUint8 **const message,
   CipConnectionObject *const connection_object) {
   /* For unconnected send - can be ignored by targets, and is ignored here */
   CipByte priority_timetick = GetSintFromMessage(message);

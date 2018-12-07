@@ -63,7 +63,7 @@ EipStatus SendConnectedData(CipConnectionObject *connection_object);
 
 EipStatus HandleReceivedIoConnectionData(
   CipConnectionObject *connection_object,
-  const EipUint8 *data,
+  EipUint8 *data,
   EipUint16 data_length);
 
 /**** Global variables ****/
@@ -866,7 +866,7 @@ EipStatus SendConnectedData(CipConnectionObject *connection_object) {
 
 EipStatus HandleReceivedIoConnectionData(
   CipConnectionObject *connection_object,
-  const EipUint8 *data,
+  EipUint8 *data,
   EipUint16 data_length
   ) {
 

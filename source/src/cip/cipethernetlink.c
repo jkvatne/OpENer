@@ -35,11 +35,12 @@ typedef struct {
 } CipEthernetLinkInterfaceCapability;
 
 EipStatus GetAttributeSingleEthernetLink(
-  CipInstance *RESTRICT const instance,
+  CipInstance *const instance,
   CipMessageRouterRequest *const message_router_request,
   CipMessageRouterResponse *const message_router_response,
-  struct sockaddr *originator_address,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session);
+
 
 /** @brief Configures the MAC address of the Ethernet Link object*
  *
@@ -174,13 +175,13 @@ int EncodeInterfaceCapability(EipUint8 **pa_acMsg) {
 }
 
 EipStatus GetAttributeSingleEthernetLink(
-  CipInstance *RESTRICT const instance,
+  CipInstance *const instance,
   CipMessageRouterRequest *const message_router_request,
   CipMessageRouterResponse *const message_router_response,
-  struct sockaddr *originator_address,
+  const struct sockaddr *const originator_address,
   const int encapsulation_session) {
-  /* Mask for filtering get-ability */
 
+  /* Mask for filtering get-ability */
   CipAttributeStruct *attribute = GetCipAttribute(
     instance, message_router_request->request_path.attribute_number);
   EipByte *message = message_router_response->data;
