@@ -9,6 +9,7 @@
 
 OpENer Version 2.1.0
 ====================
+This is a fork from OpENer into jkvante, for debugging and testing on Cygwin.
 
 Welcome to OpENer!
 ------------------
